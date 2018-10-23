@@ -4,7 +4,9 @@
     return new Notif.init(options)
   }
 
-  var defaults = {
+  var _docWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+
+  var _defaults = {
     type: 'default',
     position: 'right',
     msg: 'Huston, we\'ve got a problem.',
@@ -15,11 +17,17 @@
     clickable: false
   }
 
-  var id = 'notifit-' + Date.now()
+  var _id = 'notifit-' + Date.now()
 
-  var elem = {}
+  var _elem = {}
 
-  function addClass(elem, cls) {
+  var _config = {}
+
+  var _types = ['default', 'error', 'info', 'warning']
+
+  var _positions = ['left', 'center', 'right']
+
+  function _addClass(elem, cls) {
     if(elem.classList) {
       elem.classList.add(cls)
     } else {
@@ -28,12 +36,12 @@
     return this
   }
 
-  function construct(config) {
+  function _construct(config) {
     // get the selector provided as a container
     var container = document.querySelector(config.selector)
     // create a `div`
     var div = document.createElement('div')
-    div.id = id
+    div.id = _id
     // create a `p`
     var p = document.createElement('p')
     p.innerHTML = config.msg
@@ -41,10 +49,14 @@
     div.appendChild(p)
     // finally append it to the selector
     container.appendChild(div)
-    // add some css
-    addClass(div, 'notifit')
+    // vanilla css
+    _addClass(div, 'notifit')
+    // assign the type based class provided by config
+    if(_types.indexOf(config.type) !== -1) {
+      _addClass(div, config.type)
+    }
     // assign it to the private var to refer to it later
-    elem = div
+    _elem = div
   }
 
   Notif.prototype = {
@@ -52,27 +64,55 @@
     constructor: Notif,
 
     // ... prototype methods
-    setStyle: function(styles) {
-      for(cssprop in styles) {
-        elem.style[cssprop] = styles[cssprop]
+    setStyle: function(propsObj) {
+      for(cssprop in propsObj) {
+        _elem.style[cssprop] = propsObj[cssprop]
       }
       return this
     },
 
-    dimiss: function() {
-      elem.parentNode.removeChild(elem)
+    setPosition: function(pos) {
+      var styles = {}
+      var notifWidth = parseFloat(window.getComputedStyle(_elem).getPropertyValue('width'))
+      if(_positions.indexOf(pos)) {
+        if(pos === 'center') {
+          styles.left = parseInt((_docWidth / 2) - (notifWidth / 2), 10) + 'px'
+        } else {
+          styles[_config.position] = 10 + 'px'
+        }
+      }
+      this.setStyle(styles)
       return this
     },
+
+    show: function() {
+      // TODO: check if the notif object already exists
+      _construct(_config)
+      return this
+    },
+
+    dismiss: function() {
+      _elem.parentNode.removeChild(_elem)
+      return this
+    },
+
+    addClass: function(cls) {
+      if(_types.indexOf(cls) !== -1) {
+        _addClass(_elem, cls)
+      }
+      return this
+    }
 
     // ... expose events (how to?)
   }
 
   Notif.init = function(options) {
     // merge the provided options with defaults
-    var config = Object.assign(defaults, options)
-
+    var config = Object.assign(_defaults, options)
     // construct the element
-    construct(config)
+    _construct(config)
+    // assign config to the private variable for later use
+    _config = config
   }
 
   Notif.init.prototype = Notif.prototype
