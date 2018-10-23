@@ -64,24 +64,24 @@
     constructor: Notif,
 
     // ... prototype methods
-    setStyle: function(propsObj) {
+    style: function(propsObj) {
       for(cssprop in propsObj) {
         _elem.style[cssprop] = propsObj[cssprop]
       }
       return this
     },
 
-    setPosition: function(pos) {
+    position: function(pos) {
       var styles = {}
       var notifWidth = parseFloat(window.getComputedStyle(_elem).getPropertyValue('width'))
-      if(_positions.indexOf(pos)) {
+      if(_positions.indexOf(pos) !== -1) {
         if(pos === 'center') {
           styles.left = parseInt((_docWidth / 2) - (notifWidth / 2), 10) + 'px'
         } else {
           styles[_config.position] = 10 + 'px'
         }
+        this.style(styles)
       }
-      this.setStyle(styles)
       return this
     },
 
@@ -96,7 +96,7 @@
       return this
     },
 
-    addClass: function(cls) {
+    type: function(cls) {
       if(_types.indexOf(cls) !== -1) {
         _addClass(_elem, cls)
       }
