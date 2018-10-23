@@ -7,15 +7,16 @@
 </head>
 <body>
 
-  <div></div>
+  <div id='parent'></div>
 
 <script src="../dist/new-notifit.js"></script>
 <script>
   var n = Notif({
-    'msg': 'Huston, we\'ve got a problem.',
-    'type': 'error',
-    'position': 'right',
-    'opacity': 0.5
+    msg: 'Huston, we\'ve got a problem.',
+    type: 'error',
+    position: 'right',
+    opacity: 0.5,
+    selector: '#parent'
   })
 
 </script>
