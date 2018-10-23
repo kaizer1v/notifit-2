@@ -19,6 +19,15 @@
 
   var elem = {}
 
+  function addClass(elem, cls) {
+    if(elem.classList) {
+      elem.classList.add(cls)
+    } else {
+      elem.className += ' ' + cls
+    }
+    return this
+  }
+
   function construct(config) {
     // get the selector provided as a container
     var container = document.querySelector(config.selector)
@@ -32,6 +41,8 @@
     div.appendChild(p)
     // finally append it to the selector
     container.appendChild(div)
+    // add some css
+    addClass(div, 'notifit')
     // assign it to the private var to refer to it later
     elem = div
   }
