@@ -41,16 +41,20 @@
     constructor: Notif,
 
     // ... prototype methods
-    setStyle: function() {
-      console.log(elem)
-      debugger
+    setStyle: function(styles) {
+      for(cssprop in styles) {
+        elem.style[cssprop] = styles[cssprop]
+      }
+      return this
+    },
+
+    dimiss: function() {
+      elem.parentNode.removeChild(elem)
       return this
     }
   }
 
   Notif.init = function(options) {
-    var self = this
-
     // merge the provided options with defaults
     var config = Object.assign(defaults, options)
 
