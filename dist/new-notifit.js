@@ -51,7 +51,9 @@
     dimiss: function() {
       elem.parentNode.removeChild(elem)
       return this
-    }
+    },
+
+    // ... expose events (how to?)
   }
 
   Notif.init = function(options) {
