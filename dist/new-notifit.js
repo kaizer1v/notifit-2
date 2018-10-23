@@ -60,7 +60,7 @@
   }
 
   Notif.prototype = {
-    version: '1.0.0',
+    version: '2.1.0',
     constructor: Notif,
 
     // ... prototype methods
