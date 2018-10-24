@@ -111,7 +111,7 @@ var notif = function(options) {
       return n
     }
 
-    _this.destroy = function() {
+    _this.dismiss = function() {
       if(_this.timer) {
         clearTimeout(_this.timer)
         _this.timer = null
@@ -130,11 +130,6 @@ var notif = function(options) {
 
     _this.getConfigCopy = function() {
       return Object.assign({ 'id': _this.newNotifID() }, _this.config)
-    }
-
-    _this.dismiss = function() {
-      // temporal
-      _this.destroy()
     }
 
     _this.init()
