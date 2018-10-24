@@ -91,8 +91,11 @@
       return this
     },
 
-    dismiss: function() {
+    dismiss: function(cb) {
       _elem.parentNode.removeChild(_elem)
+      if(cb) {
+        cb.call(this)
+      }
       return this
     },
 
